@@ -27,8 +27,16 @@ for($i = 1; $i<= 20; $i++) {
     }
     $races[$i] = $race;
 }
+usort($races, 'sort_by_time');
+$next5 = array_slice($races, 0, 5);
+    
 
-echo json_encode($races);
+
+echo json_encode($next5);
+
+function sort_by_time($race1, $race2){
+    return $race1->closingTime <=> $race2->closingTime;
+}
 
 function get_unique_rand_within_range($min, $max, $quantity) {
     $numbers = range($min, $max);

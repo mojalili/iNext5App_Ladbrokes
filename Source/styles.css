@@ -1,0 +1,15 @@
+.next-5-races {
+    margin-top: 50px;
+}
+
+.next-5-races label {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.next-5-races span {
+    display: inline-block;
+    width: 150px;
+    margin-right: 30px;
+}
