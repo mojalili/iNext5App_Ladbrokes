@@ -10,8 +10,6 @@ $raceTypes[2] = 'Harness';
 
 $now = new DateTime(null, new DateTimeZone("UTC"));
 
-$interval = DateInterval::createfromdatestring('+1 hours');
-
 $races = array();
 for($i = 1; $i<= 20; $i++) {
     $race = new Race();

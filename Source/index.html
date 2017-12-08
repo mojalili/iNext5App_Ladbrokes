@@ -22,7 +22,7 @@
     $.getJSON('races.php', response => {
         next5Races = response;
         let html = $.map(next5Races, r => { 
-            let closingInMs = moment(r.closingTime).diff(moment());
+            let closingInMs = moment.utc(r.closingTime).diff(moment.utc());
             let timeSpanEl = $('<span>').text(msToTime(closingInMs));
             
             let competitorsListEls = $.map(r.competitors, c => {
