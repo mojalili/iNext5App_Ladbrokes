@@ -22,14 +22,44 @@
     $.getJSON('races.php', response => {
         next5Races = response;
         let html = $.map(next5Races, r => { 
-            let closinInMs = moment(r.closingTime).diff(moment());
-            return $('<li>')
+            let closingInMs = moment(r.closingTime).diff(moment());
+            let timeSpanEl = $('<span>').text(msToTime(closingInMs));
+            
+            let competitorsListEls = $.map(r.competitors, c => {
+                return $('<li>')
+                        .append($('<label>').text('Competitor #:'))
+                        .append($('<span>').text(c.number))
+                        .append($('<label>').text('Position:'))
+                        .append($('<span>').text(c.position));
+            });
+
+            let raceEl = $('<li>')
                     .append($('<label>').text('Race Type:'))
                     .append($('<span>').text(r.type))
                     .append($('<label>').text('Closing In:'))
-                    .append($('<span>').text(msToTime(closinInMs)))
+                    .append(timeSpanEl)
                     .append($('<label>').text('Details:'))
-                    .append($('<a>').text('View details...').attr('href', 'race-details.html'));
+                    .append($('<span>')
+                        .text('Toggle details...')
+                        .attr('class', 'view-race-details')
+                        .click(() => {
+                            // toggle race details
+                            $(raceEl).find('.race-details').slideToggle();
+                        }))
+                    .append($('<ol>')
+                        .css('display', 'none')
+                        .addClass('race-details')
+                        .append(competitorsListEls));
+
+            setInterval(() => {
+                closingInMs = closingInMs - 1000;
+                $(timeSpanEl).text(msToTime(closingInMs))
+                if(closingInMs <= 0){
+                    // hide the race
+                    $(raceEl).fadeOut();
+                }
+            }, 1000);
+            return raceEl;
         });
         console.log(html);
         $('.next-5-races').append(html);
