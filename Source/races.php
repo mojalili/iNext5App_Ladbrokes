@@ -8,13 +8,15 @@ $raceTypes[0] = 'Thoroughbred';
 $raceTypes[1] = 'Greyhounds';
 $raceTypes[2] = 'Harness';
 
-$now = gmdate("Y-m-d H:i:s");
-$fiveHoursLater = gmdate("Y-m-d H:i:s", strtotime('+5 hours'));
+$now = new DateTime(null, new DateTimeZone("UTC"));
+
+$interval = DateInterval::createfromdatestring('+1 hours');
 
 $races = array();
 for($i = 1; $i<= 20; $i++) {
     $race = new Race();
-    $race->closingTime = rand_date($now, $fiveHoursLater);
+    $secondsToAdd = sprintf('PT%dS', rand(1, 800));
+    $race->closingTime = (clone $now)->add(new DateInterval($secondsToAdd))->format("c");
     $race->type = $raceTypes[rand(0, 2)];
     $race->competitors = array();
 
@@ -29,10 +31,9 @@ for($i = 1; $i<= 20; $i++) {
 }
 usort($races, 'sort_by_time');
 $next5 = array_slice($races, 0, 5);
-    
+$json = json_encode($next5);
 
-
-echo json_encode($next5);
+echo $json;
 
 function sort_by_time($race1, $race2){
     return $race1->closingTime <=> $race2->closingTime;
@@ -44,13 +45,4 @@ function get_unique_rand_within_range($min, $max, $quantity) {
     return array_slice($numbers, 0, $quantity);
 }
 
-function rand_date($min_date, $max_date) {
-
-    $min_epoch = strtotime($min_date);
-    $max_epoch = strtotime($max_date);
-
-    $rand_epoch = rand($min_epoch, $max_epoch);
-
-    return date('Y-m-d H:i:s', $rand_epoch);
-}
 ?>

@@ -5,6 +5,7 @@
 <title>Ladbrokes Next5 App</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 <link rel="stylesheet" href="styles.css" />
 </head>
@@ -21,11 +22,12 @@
     $.getJSON('races.php', response => {
         next5Races = response;
         let html = $.map(next5Races, r => { 
+            let closinInMs = moment(r.closingTime).diff(moment());
             return $('<li>')
                     .append($('<label>').text('Race Type:'))
                     .append($('<span>').text(r.type))
                     .append($('<label>').text('Closing In:'))
-                    .append($('<span>').text(r.closingTime))
+                    .append($('<span>').text(msToTime(closinInMs)))
                     .append($('<label>').text('Details:'))
                     .append($('<a>').text('View details...').attr('href', 'race-details.html'));
         });
@@ -33,7 +35,17 @@
         $('.next-5-races').append(html);
     });
 
-    
+    function msToTime(duration) {
+        var seconds = parseInt((duration/1000)%60)
+            , minutes = parseInt((duration/(1000*60))%60)
+            , hours = parseInt((duration/(1000*60*60))%24);
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
     
 </script>
 </html>
