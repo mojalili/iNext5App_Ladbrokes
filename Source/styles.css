@@ -15,7 +15,7 @@
 }
 
 .view-race-details {
-    color: #337ab7;
+    color: #dd4c09;
     cursor: pointer;
 }
 
@@ -32,12 +32,14 @@
 }
 
 h1 {
-    text-shadow: 1px 1px #7c7979;
+    color: #d32123;
+    text-shadow: 1px 1px #c03a3a;
+    text-align: left;
 }
 
 .container{ 
-    border: 2px solid #7c7979;
+    border: 2px solid #d32123;
     padding: 10px;
-    border-top-left-radius: 25px;
-   
+    border-radius: 35px;
+    
 }
