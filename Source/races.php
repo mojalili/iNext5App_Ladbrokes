@@ -1,3 +1,4 @@
+<!-- Races file -->
 <?php
 
 include_once 'competitor.php';

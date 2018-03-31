@@ -1,3 +1,4 @@
+<!-- Competitor file -->
 <?php
     class Competitor {
         public $number;
